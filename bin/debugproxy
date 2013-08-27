@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'debugproxy'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = 'Usage: debugproxy [--ssl] <listener:port> <remote:port>'
+
+  opts.on('--ssl', 'Use SSL') do |v|
+    options[:ssl] = true
+  end
+end.parse!
+
+EM.run do
+  DebugProxy.start(ARGV[0], ARGV[1], options)
+end
